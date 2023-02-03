@@ -25,12 +25,11 @@ export default function UserGuest(props) {
                         }}
                         buttonStyle={styles.btn}
                         containerStyle={styles.btnContainer}
-                        onPress={() => navigation.navigate('profileStack')}  
+                        onPress={() => navigation.navigate('loginStack')}  
                             
                     />
                  </View>
         </ScrollView>
-     
     </View>
   )
 }
@@ -38,8 +37,8 @@ export default function UserGuest(props) {
 const styles = StyleSheet.create({
     container:{ 
         flex:1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
         backgorundColor: '#fff',
         height: "100%"
     },

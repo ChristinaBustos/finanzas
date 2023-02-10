@@ -6,32 +6,38 @@ import { isEmpty } from "lodash";
 import Loading from "../../../../kernel/components/Loading";
 import { getAuth, signInWithEmailAndPassword  } from "firebase/auth";
 
-export default function Login() {
-  const [error, setError] = useState("");
+export default function Login(props) {
+  const {navigation} = props;
+  const [error, setError] = useState({email:'',password:''});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [show, setShow] = useState(false);
+  // const [failSession, setFailSession] = useState(false);
   const auth = getAuth();
   const login = () => {
     console.log(email);
     if (!(isEmpty(email) || isEmpty(password))){
         signInWithEmailAndPassword (auth, email, password)
         .then((userCredential) => {
-          // Signed in
+          setError({email:'',password:''});
           setShow(true);
+          // Signed in
           const user = userCredential.user;
+          setShow(false);
+          navigation.navigate("userGuestStack");
           console.log(user);
           // ...
         })
         .catch((error) => {
+          setError({email:'',password:'Usuario o contraseña incorrectos'});
             setShow(false);
           const errorCode = error.code;
           const errorMessage = error.message;
           // ..
         });
     } else {
-      setError("Campo obligatorio");
+      setError({email:'Campo obligatorio',password:'Campo obligatorio'});
     }
   };
   return (
@@ -47,7 +53,7 @@ export default function Login() {
           keyboardType="email-address"
           containerStyle={styles.input}
           onChange={(event) => setEmail(event.nativeEvent.text)}
-          errorMessage={error}
+          errorMessage={error.email}
           autoCapitalize="none"
         />
         <Input
@@ -63,7 +69,7 @@ export default function Login() {
               onPress={() => setShowPassword(!showPassword)}
             />
           }
-          errorMessage={error}
+          errorMessage={error.password}
         />
         <Button
           title="Iniciar sesión"

@@ -2,9 +2,10 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { Input, Button, Image, Icon } from "@rneui/base";
 import { isEmpty } from "lodash";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from "../../../../kernel/components/Loading";
 import { getAuth, signInWithEmailAndPassword  } from "firebase/auth";
+import { async } from "@firebase/util";
 
 export default function Login(props) {
   const {navigation} = props;
@@ -19,11 +20,16 @@ export default function Login(props) {
     console.log(email);
     if (!(isEmpty(email) || isEmpty(password))){
         signInWithEmailAndPassword (auth, email, password)
-        .then((userCredential) => {
+        .then(async(userCredential) => {
+          const user = userCredential.user;
+          try {
+            await AsyncStorage.setItem('@session', JSON.stringify(user));
+          } catch (e) {
+            console.log("error -> Login storage",e);
+          }
           setError({email:'',password:''});
           setShow(true);
           // Signed in
-          const user = userCredential.user;
           setShow(false);
           navigation.navigate("userGuestStack");
           console.log(user);

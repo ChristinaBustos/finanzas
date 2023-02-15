@@ -1,11 +1,27 @@
-import {Text, View } from 'react-native'
-import React from 'react'
+import { Text, View } from "react-native";
+import React,{useEffect,useState} from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from "../../../../kernel/components/Loading";
+import UserGuest from "./UserGuest";
+import UserLogged from "./UserLogged";
+
 
 export default function Profile() {
-  return (
-    <View>
-      <Text>profile</Text>
-    </View>
-  )
-}
+  const [user, setUser] = useState(null);
+  useEffect(()=>{
+   (async() =>{
+    try {
+      const value = await AsyncStorage.getItem('@session');
+      console.log(value);
+      if(value !== null) {
+        setUser(true)
+      }
+    } catch(e) {
+      setUser(false)
+    }
+   })()
+  },[]);
+    if(!user === null) return <Loading/>;
+    return user ? <UserLogged/>:<UserGuest/>;
 
+}

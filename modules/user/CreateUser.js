@@ -4,9 +4,12 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import { isEmpty,size } from 'lodash'
 import { Image,Input,Button, Icon } from 'react-native-elements'
 import Loading from '../../kernel/components/Loading'
+import {getAuth,createUserWithEmailAndPassword} from 'firebase/auth'
+import {validetionEmail} from '../../kernel/validationEmail'
 
 export default function CreateUser() {
     const payload = {email:"", password:"",repeatPassword:""}
+    const auth= getAuth()
     const [show,setShow] = useState(false)
     const [error,setError] = useState(payload)
     const [data,setData] = useState(payload)
@@ -18,7 +21,24 @@ export default function CreateUser() {
     }
 
     const createUser = () => {
-        console.log("data",data);
+        console.log(data);
+        if((isEmpty(data.email) || isEmpty(data.password)|| isEmpty(data.repeatPassword))){
+            if(validetionEmail(data.email)){
+                if(size(data.password) >= 6){
+                    if(data.password == data.repeatPassword){
+    
+                    }else{
+                        setError({email:'',password:'Debe seer igual',repeatPassword:'Debe coincidir con la anterior'})
+                    }
+                }else{
+                    setError({email:'',password:'Se requiere una contraseña por los menos 6 carácteres',repeatPassword:'Se requiere una contraseña por los menos 6 carácteres'})
+                }
+            }else{
+                setError({email:'Debe ser correo Electronico',password:'',repeatPassword:''})
+            }       
+        }else{
+            setError({email:'Campo Obligatorio',password:'Campo Obligatorio',repeatPassword:'Campo Obligatorio'})
+        }
     }
 
   return (
@@ -59,7 +79,6 @@ export default function CreateUser() {
                     onChange={(e)=> changePayload(e,'password')}
                     errorMessage={error.repeatPassword}
                 />
-
                 <Button 
                     title='Crear cuenta'
                     style={styles.btncontainer}
@@ -92,13 +111,13 @@ const styles = StyleSheet.create({
     },
     input:{
         width:'100%',
-        marginVertical:20
+        marginVertical:10
     },
     btncontainer:{
-        marginVertical:20,
+        marginBottom:20,
         width:'95%'
     },
     btn: {
-        backgroundColor:'"28a745'
+        backgroundColor:'#28a745'
     }
 })

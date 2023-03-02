@@ -3,6 +3,10 @@ import { Button, Avatar } from '@rneui/base'
 import React, { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../../../../kernel/components/Loading'
+import { getStorage,ref,uploadBytes,getDownloadURL } from "firebase/storage"
+import * as Imagepicker from 'expo-image-picker'
+import * as Permissions from 'expo-permissions'
+import { doc, setDoc, getFirestore } from "firebase/firestore";
 
 export default function UserLogged(props) {
     const { setReload, user } = props
@@ -20,6 +24,56 @@ export default function UserLogged(props) {
         }
     }
 
+
+
+    const uploadImage = async (uri) =>{
+        setShow(true);
+        const response = await fetch(uri);
+        console.log("repuesta",response);
+        const {_bodyBlob } = response;
+        const storage = getStorage();
+        const storageRef = ref(storage,`avatars/${user.uid}`);
+        return uploadBytes(storageRef,_bodyBlob);
+    }
+
+    const changeAvatar = async () =>{
+        const resultPermission = await Permissions.askAsync(Permissions.CAMERA)
+        if(resultPermission.permissions.camera.status !== 'denied'){
+            let result = await Imagepicker.launchImageLibraryAsync({
+                mediaTypes: Imagepicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                quality: 1
+            });
+            if(!result.canceled){
+                uploadImage(result.assets[0].uri).then((response) => {
+                    console.log("Image actualizada");
+                    updateProfile()
+                }).catch((err)=>{
+                    console.log("error",err);
+                })
+            }else{
+                console.log("No se ha seleccionado una imagen");
+            }
+        }
+
+    }
+
+    const updateProfile =  () =>{
+        const storage = getStorage()
+        getDownloadURL(ref(storage,`avatars/${user.uid}`)).then(async(url)=>{
+            const response = await setDoc(doc(db, "person", `${user.uid}`), {
+                displayName: "",
+                photo: url
+              });
+              console.log("Doc prueba",response);
+        }).catch((err)=>{
+                setShow(false)
+                console.log("error al actualizar perfil",err);
+            })
+    }
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.infoContainer}>
@@ -31,7 +85,7 @@ export default function UserLogged(props) {
                 >
                     <Avatar.Accessory
                         size={50}
-                        onPress={()=>console.log('Hola')}
+                        onPress={changeAvatar}
                     />
                 </Avatar>
                 <View>

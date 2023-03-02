@@ -26,7 +26,7 @@ export default function UserLogged(props) {
                 <Avatar
                     size='xlarge'
                     rounded
-                    source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/finanzas-cab04.appspot.com/o/avatar%2FllMqQCspyvfnEEc08MojLJHc5Di1.jpg?alt=media&token=05f25976-9f03-4f7b-838e-57029ff8bc00' }}
+                    source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/finanzas-7a5b1.appspot.com/o/avatar%2FmRTZiKPLkERJBQ1I9rPttYzHjOH3.jpg?alt=media&token=bd66125b-8746-43b4-b8a2-000cb0483557' }}
                     containerStyle={styles.avatar}
                 >
                     <Avatar.Accessory

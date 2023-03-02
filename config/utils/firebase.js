@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCKlXbAL7XJ0RcF0qCRzL3S9DAQQp0mvFw",
-    authDomain: "finanzas-cab04.firebaseapp.com",
-    projectId: "finanzas-cab04",
-    storageBucket: "finanzas-cab04.appspot.com",
-    messagingSenderId: "302188883059",
-    appId: "1:302188883059:web:1e35b2c9eaa1e02575ce06"
+  apiKey: "AIzaSyC7eejQzqpyz4XmbuiFp_9brV90h56p-cI",
+  authDomain: "finanzas-7a5b1.firebaseapp.com",
+  projectId: "finanzas-7a5b1",
+  storageBucket: "finanzas-7a5b1.appspot.com",
+  messagingSenderId: "537976435132",
+  appId: "1:537976435132:web:ccb6fbe485f6bca98a7bb9"
 };
 
 // Initialize Firebase

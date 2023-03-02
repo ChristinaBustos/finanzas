@@ -1,76 +1,81 @@
-import { StyleSheet, Text, View,ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { Image, Button } from '@rneui/base'
 import React from 'react'
-import { Image,Button } from '@rneui/base'
 import { useNavigation } from '@react-navigation/native'
 
 export default function UserGuest() {
-    const navigation = useNavigation();
-  return (
-    <View style={styles.container}>
-        <ScrollView style={styles.mx} centerContent={true}>
-            <Image source={require("../../../../assets/img/presupuesto.png")}
-                resizeMode="contain"
-                style={styles.img}/>
-                <Text style={styles.title}>Bienvenido a MiCochino</Text>
-                 <Text style={styles.description}>¿Te gustaria ahorrar dinero? Nosotros te ayudamos, crea o inicia
-                    sesión en nuestra aplicación y descubre la mejor manera de ahorrar dinero
-                 </Text>
-                 <View style={styles.ViewBtnContainer} >
-                    <Button 
-                        title="Iniciar Sesión"
-                        icon = {{
-                            name: 'login',
+    const navigation = useNavigation()
+    return (
+        <View style={styles.container}>
+            <ScrollView
+                style={styles.mx}
+                centerContent={true}>
+                <Image
+                    source={require('../../../../assets/presupuesto.png')}
+                    resizeMode='contain'
+                    style={styles.img} />
+                <Text style={styles.title}>Bienvenido a Cochinito</Text>
+                <Text style={styles.description}>
+                    ¿Te gustaría ahorrar dinero?,
+                    Nosotros te ayudamos, crea o inicia sesión en nuestra aplicación y
+                    descubre la mejor manera de ahorrar tu dinero
+                </Text>
+                <View style={styles.viewBtnContainer}>
+                    <Button
+                        title='Iniciar Sesión'
+                        icon={{
+                            name: 'login-variant',
                             type: 'material-community',
-                            size:15,
+                            size: 15,
                             color: 'white'
                         }}
                         buttonStyle={styles.btn}
                         containerStyle={styles.btnContainer}
-                        onPress={() => navigation.navigate('loginStack')}  
-                            
+                        onPress={() => navigation.navigate('loginStack')}
                     />
-                 </View>
-        </ScrollView>
-    </View>
-  )
+                </View>
+            </ScrollView>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
-    container:{ 
+    container: {
+        backgroundColor: '#fff',
+        height: '100%',
         flex:1,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgorundColor: '#fff',
-        height: "100%"
+        alignItems: 'center'
     },
-    mx:{
+    mx: {
         marginLeft: 32,
         marginRight: 32
     },
-    img:{
-        width: "100%",
+    img: {
+        marginTop: 20,
+        width: '100%',
         height: 150
     },
-    title:{
-        fontWeight: "bold",
+    title: {
+        fontWeight: 'bold',
         fontSize: 20,
-        textAlign: "center",
-        marginBottom: 16
+        textAlign: 'center',
+        fontFamily: 'monospace',
+        margin: 10
     },
-    description:{
-        textAlign: "center",
-        marginBottom: 16
+    description: {
+        textAlign: 'center',
+        marginBottom: 10
     },
-    ViewBtnContainer: {
+    viewBtnContainer: {
         flex: 1,
         alignItems: 'center'
     },
-    btn:{
+    btn: {
         backgroundColor: 'tomato',
-        color: '#fff',
+        color: '#fff'
     },
-    btnContainer:{
-        width: "70%"
+    btnContainer: {
+        width: '70%'
     },
-    
 })

@@ -1,9 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { initializeAuth,getReactNativePersistence } from "firebase/auth/react-native";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC7eejQzqpyz4XmbuiFp_9brV90h56p-cI",
   authDomain: "finanzas-7a5b1.firebaseapp.com",
@@ -14,4 +12,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+//expo community no es compatible 
 export const app = initializeApp(firebaseConfig);
+export const auth = initializeApp(app,{persistence: getReactNativePersistence(AsyncStorage)})

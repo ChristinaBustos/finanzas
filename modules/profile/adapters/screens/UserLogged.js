@@ -1,30 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { Button, Avatar } from '@rneui/base'
 import React, { useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../../../../kernel/components/Loading'
 import { getStorage,ref,uploadBytes,getDownloadURL } from "firebase/storage"
 import * as Imagepicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
-import { doc, setDoc, getFirestore } from "firebase/firestore";
+import {getAuth, updateProfile} from "firebase/auth"
 
 export default function UserLogged(props) {
-    const { setReload, user } = props
-    console.log('Sesión', user);
+    const auth = getAuth()
+    const { user } = props
     const [show, setShow] = useState(false)
-    const removeValue = async () => {
-        try {
-            setShow(true)
-            await AsyncStorage.removeItem('@session')
-            setShow(false)
-            setReload(true)
-        } catch (e) {
-            setShow(false)
-            console.log('Error - UserLogged(12)', e);
-        }
-    }
-
-
+  
 
     const uploadImage = async (uri) =>{
         setShow(true);
@@ -60,12 +47,12 @@ export default function UserLogged(props) {
 
     const updateProfile =  () =>{
         const storage = getStorage()
-        getDownloadURL(ref(storage,`avatars/${user.uid}`)).then(async(url)=>{
-            const response = await setDoc(doc(db, "person", `${user.uid}`), {
-                displayName: "",
-                photo: url
-              });
-              console.log("Doc prueba",response);
+        getDownloadURL(ref(storage,`avatars/${user.uid}`)).then((url)=>{
+            updateProfile(auth.currentUser,{
+                photoURL: url,
+            }).then(() => {
+                setShow(false)
+            })
         }).catch((err)=>{
                 setShow(false)
                 console.log("error al actualizar perfil",err);
@@ -73,10 +60,10 @@ export default function UserLogged(props) {
     }
 
 
-
     return (
         <View style={styles.container}>
-            <View style={styles.infoContainer}>
+            {user && (
+                <View style={styles.infoContainer}> 
                 <Avatar
                     size='xlarge'
                     rounded
@@ -97,12 +84,13 @@ export default function UserLogged(props) {
                     </Text>
                 </View>
             </View>
+            )}
             <Button
                 title='Cerrar sesión'
                 buttonStyle={styles.btn}
-                onPress={removeValue}
+                onPress={() => auth.signOut()}
             />
-            <Loading show={show} text='Cerrando sesión' />
+            <Loading show={show} text='Actualizando Imagen' />
         </View>
     )
 }

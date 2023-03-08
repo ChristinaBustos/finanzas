@@ -3,7 +3,10 @@ import { Input, Button, Image, Icon } from "@rneui/base";
 import React, { useState } from "react";
 import { isEmpty } from "lodash";
 import Loading from "../../../../kernel/components/Loading";
+import LoadingAccept from '../../../../kernel/components/LoadingAccept'
+import LoadingError from "../../../../kernel/components/LoadingError";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+
 
 export default function Login(props) {
   const { navigation } = props
@@ -11,6 +14,8 @@ export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true)
+  const [showAccept, setShowAccept] = useState(false)
+  const [showError, setShowError] = useState(false)
   const [show, setShow] = useState(false)
   //const [failSession, setFailSession] = useState(false)
   const auth = getAuth()
@@ -21,6 +26,7 @@ export default function Login(props) {
       setError({ email: '', password: '' })
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          setShow(false)
           const user = userCredential.user;
           // try {
           //   await AsyncStorage.setItem('@session', JSON.stringify(user))
@@ -28,14 +34,17 @@ export default function Login(props) {
           //   console.error("Error -> login Storage",e);
           // }
           console.log("Login",user);
-          setShow(false)
+          setShowAccept(true)
           navigation.navigate("profileStack")
+          setShowAccept(false)
         })
         .catch((error) => {
           setError({ email: '', password: 'Usuario o contraseña incorrectos' })
           setShow(false)
+          setShowError(true)
           const errorCode = error.code;
           const errorMessage = error.message;
+          setShowError(false)
         });
     } else {
       setError({ email: 'Campo obligatorio', password: 'Campo obligatorio' })
@@ -90,7 +99,10 @@ export default function Login(props) {
           onPress={() => console.log("Vamos")}>
           Crear cuenta
         </Text>
+        <LoadingAccept show={showAccept} text='Inicio Sesión Exitosamente' />
+        <LoadingError show={showError} text='Usuario o contraseña incorrectos' />
         <Loading show={show} text='Iniciando sesión' />
+        
       </ScrollView>
     </View>
   );

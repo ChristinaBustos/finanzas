@@ -2,11 +2,11 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Icon } from '@rneui/base'
-import Login from '../../modules/auth/adapters/screens/Login'
-import CreateAccount from '../../modules/users/adapters/screens/CreateAccount'
+import ProfileStack from '../stack/ProfileStack'
+import AboutStack from '../stack/AboutStack'
 
 const Tab = createBottomTabNavigator();
-export default function Navigation() {
+export default function NavigationLogged() {
   return (
     <NavigationContainer>
         <Tab.Navigator
@@ -18,14 +18,14 @@ export default function Navigation() {
             })}
         >
             <Tab.Screen
-                name='login'
-                component={Login}
-                options={{title:'Inicio de Sesión'}}
+                name='about'
+                component={ProfileStack}
+                options={{title:'Bienvenido'}}
             />
             <Tab.Screen
-                name='createAccount'
-                component={CreateAccount}
-                options={{title:'Crear Cuenta'}}
+                name='profile'
+                component={AboutStack}
+                options={{title:'Perfil'}}
             />
         </Tab.Navigator>
     </NavigationContainer>
@@ -35,11 +35,11 @@ export default function Navigation() {
 const screenOptions = (route, color) =>{
     let iconName;
     switch(route.name){
-        case 'login':
-            iconName = 'login';
+        case 'about':
+            iconName = 'information-outline';
             break;
-        case 'createAccount':
-            iconName = 'account-plus';
+        case 'profile':
+            iconName = 'account-circle-outline';
             break;
     }
     return (<Icon type='material-community' name={iconName} size={22} color={color} />)

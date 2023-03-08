@@ -1,71 +1,57 @@
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { Input, Button, Image, Icon } from "@rneui/base";
 import React, { useState } from "react";
+import { Input, Button, Image, Icon } from "@rneui/base";
 import { isEmpty } from "lodash";
 import Loading from "../../../../kernel/components/Loading";
-import LoadingAccept from '../../../../kernel/components/LoadingAccept'
-import LoadingError from "../../../../kernel/components/LoadingError";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 
-
-export default function Login(props) {
-  const { navigation } = props
-  const [error, setError] = useState({ email: '', password: '' });
+export default function Login() {
+  const [error, setError] = useState({ email: "", password: "" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(true)
-  const [showAccept, setShowAccept] = useState(false)
-  const [showError, setShowError] = useState(false)
-  const [show, setShow] = useState(false)
-  //const [failSession, setFailSession] = useState(false)
-  const auth = getAuth()
+  const [showPassword, setShowPassword] = useState(true);
+  const [show, setShow] = useState(false);
+
+  const auth = getAuth();
   const login = () => {
     if (!(isEmpty(email) || isEmpty(password))) {
       console.log("Listos para iniciar sesión");
-      setShow(true)
-      setError({ email: '', password: '' })
+      setShow(true);
+      setError({ email: "", password: "" });
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          setShow(false)
+          setShow(false);
           const user = userCredential.user;
-          // try {
-          //   await AsyncStorage.setItem('@session', JSON.stringify(user))
-          // } catch (e) {
-          //   console.error("Error -> login Storage",e);
-          // }
-          console.log("Login",user);
-          setShowAccept(true)
-          navigation.navigate("profileStack")
-          setShowAccept(false)
+          console.log("Login", user);
+          navigation.navigate("profileStack");
         })
         .catch((error) => {
-          setError({ email: '', password: 'Usuario o contraseña incorrectos' })
-          setShow(false)
-          setShowError(true)
+          setError({ email: "", password: "Usuario o contraseña incorrectos" });
+          setShow(false);
           const errorCode = error.code;
           const errorMessage = error.message;
-          setShowError(false)
         });
     } else {
-      setError({ email: 'Campo obligatorio', password: 'Campo obligatorio' })
-      setShow(false)
+      setError({ email: "Campo obligatorio", password: "Campo obligatorio" });
+      setShow(false);
     }
   };
+
   return (
     <View style={styles.container}>
       <ScrollView>
         <Image
-          source={require("../../../../assets/presupuesto.png")}
+          source={require("../../../../assets/logo.png")}
           resizeMode="contain"
           style={styles.logotype}
         />
         <Input
-          placeholder="Correo electrónico"
+          placeholder="Correo Electrónico"
           keyboardType="email-address"
           containerStyle={styles.input}
           onChange={(event) => setEmail(event.nativeEvent.text)}
           errorMessage={error.email}
-          autoCapitalize='none'
+          autoCapitalize="none"
         />
         <Input
           placeholder="Contraseña"
@@ -73,11 +59,13 @@ export default function Login(props) {
           onChange={(event) => setPassword(event.nativeEvent.text)}
           secureTextEntry={showPassword}
           rightIcon={
-            <Icon type="material-community"
-              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              color="#007bff"
-              onPress={() => setShowPassword(!showPassword)}>
-            </Icon>}
+            <Icon
+              type="material-community"
+              name={showPassword ? "eye-off-outline" : "eye-outline"}
+              color="#fe5d63"
+              onPress={() => setShowPassword(!showPassword)}
+            />
+          }
           errorMessage={error.password}
         />
         <Button
@@ -92,24 +80,16 @@ export default function Login(props) {
           }
           buttonStyle={styles.btnSuccess}
           containerStyle={styles.btnContainer}
-          onPress={login}
         />
-        <Text
-          style={styles.createAccount}
-          onPress={() => console.log("Vamos")}>
-          Crear cuenta
-        </Text>
-        <LoadingAccept show={showAccept} text='Inicio Sesión Exitosamente' />
-        <LoadingError show={showError} text='Usuario o contraseña incorrectos' />
-        <Loading show={show} text='Iniciando sesión' />
-        
+
+        <Loading show={show} text="Iniciando sesión" />
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  conatiner: {
     backgroundColor: "#fff",
     height: "100%",
   },
@@ -120,16 +100,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    width: '100%',
+    width: "100%",
+    marginBottom: 16,
   },
   btnSuccess: {
-    color: '#FFF',
-    backgroundColor: '#28a745'
+    color: "#fff",
+    backgroundColor: "#fe5d63",
   },
   btnContainer: {
-    margin: 16
+    margin: 16,
   },
   createAccount: {
-    color: '#007bff'
+    color: "#007bff",
+    marginBottom: 16,
   },
 });

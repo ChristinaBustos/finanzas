@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "finanzas",
-    "slug": "finanzas",
+    "name": "Airbnb",
+    "slug": "Airbnb",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/fondo.jpg",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fe5d63"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

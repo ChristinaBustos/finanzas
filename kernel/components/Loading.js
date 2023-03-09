@@ -1,44 +1,46 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { Overlay } from '@rneui/base'
 
 export default function Loading(props) {
-    const {show,text} = props
-  return (
-    <Overlay
-        isVisible={show}
-        windowsBackgroundColor='rdb(0,0,0,0,5)'
-        overlayBackgroundColor='transparent'
-        overlayStyle={styles.overlay}
-    >
-        <View style={styles.container}>
-            <ActivityIndicator size='large' color='#007bff'/>
-            {text && <Text style={styles.text} >{text}</Text>}
-        </View>
-    </Overlay>
-  )
+    //console.log(props);
+    const { show, text } = props
+    return (
+        <Overlay
+            isVisible={show}
+            windowsBackgroundColor='rgb(0,0,0,0.5)'
+            overlayBackgroundColor='transparent'
+            overlayStyle={styles.overlay}
+        >
+            <View style={styles.container}>
+                <ActivityIndicator size='large'
+                    color='#007bff' />
+                {text && <Text style={styles.text}>{text}</Text>}
+            </View>
+        </Overlay>
+    )
 }
 
 const styles = StyleSheet.create({
-    overlay:{
+    overlay: {
         height: 160,
         width: 250,
-        backgroundColor: '#FFF',
-        borderColor:'#FFF',
-        borderWidth:2,
+        backgroundColor: '#fff',
+        borderColor: '#fff',
+        borderWidth: 2,
         borderRadius: 10,
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems: 'center'
     },
-    container:{
-        flex:1,
+    container: {
+        flex: 1,
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems: 'center'
     },
-    text:{
+    text: {
         color: '#007bff',
-        textTransform:'uppercase',
+        textTransform: 'uppercase',
         marginTop: 10,
         textAlign: 'center'
-    }
+    },
 })

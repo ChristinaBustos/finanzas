@@ -3,12 +3,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeAuth,getReactNativePersistence } from "firebase/auth/react-native";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAAKLHW9uSu88YT_ccMznS8SZwzKCrKyx4",
-  authDomain: "airbnb-b4141.firebaseapp.com",
-  projectId: "airbnb-b4141",
-  storageBucket: "airbnb-b4141.appspot.com",
-  messagingSenderId: "980994463127",
-  appId: "1:980994463127:web:d2146a1ee3740ce24da0d2"
+  apiKey: "AIzaSyC7eejQzqpyz4XmbuiFp_9brV90h56p-cI",
+  authDomain: "finanzas-7a5b1.firebaseapp.com",
+  projectId: "finanzas-7a5b1",
+  storageBucket: "finanzas-7a5b1.appspot.com",
+  messagingSenderId: "537976435132",
+  appId: "1:537976435132:web:ccb6fbe485f6bca98a7bb9"
 };
 
 // Initialize Firebase

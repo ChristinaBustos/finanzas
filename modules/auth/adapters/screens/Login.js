@@ -99,8 +99,8 @@ export default function Login(props) {
           onPress={() => console.log("Vamos")}>
           Crear cuenta
         </Text>
-        <LoadingAccept show={showAccept} text='Inicio Sesión Exitosamente' />
-        <LoadingError show={showError} text='Usuario o contraseña incorrectos' />
+        {/* <LoadingAccept show={showAccept} text='Inicio Sesión Exitosamente' />
+        <LoadingError show={showError} text='Usuario o contraseña incorrectos' /> */}
         <Loading show={show} text='Iniciando sesión' />
         
       </ScrollView>

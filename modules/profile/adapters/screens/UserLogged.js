@@ -11,9 +11,10 @@ export default function UserLogged(props) {
     const auth = getAuth()
     const { user } = props
     const [show, setShow] = useState(false)
-  
+    const [tex, setTex] = useState('')
 
     const uploadImage = async (uri) =>{
+        setTex('Actualizando Imagen')
         setShow(true);
         const response = await fetch(uri);
         console.log("repuesta",response);
@@ -34,7 +35,7 @@ export default function UserLogged(props) {
             if(!result.canceled){
                 uploadImage(result.assets[0].uri).then((response) => {
                     console.log("Image actualizada");
-                    updateProfile()
+                    updateProfiles()
                 }).catch((err)=>{
                     console.log("error",err);
                 })
@@ -45,7 +46,7 @@ export default function UserLogged(props) {
 
     }
 
-    const updateProfile =  () =>{
+    const updateProfiles =  () =>{
         const storage = getStorage()
         getDownloadURL(ref(storage,`avatars/${user.uid}`)).then((url)=>{
             updateProfile(auth.currentUser,{
@@ -67,7 +68,7 @@ export default function UserLogged(props) {
                 <Avatar
                     size='xlarge'
                     rounded
-                    source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/finanzas-7a5b1.appspot.com/o/avatar%2FmRTZiKPLkERJBQ1I9rPttYzHjOH3.jpg?alt=media&token=bd66125b-8746-43b4-b8a2-000cb0483557' }}
+                    source={{ uri: `${auth.currentUser.photoURL}` }}
                     containerStyle={styles.avatar}
                 >
                     <Avatar.Accessory
